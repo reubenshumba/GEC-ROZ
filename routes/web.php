@@ -20,10 +20,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-Route::get('/setup', [SetupController::class, 'index'])->name('setup');
-Route::post('/setup', [SetupController::class, 'save'])->name('setup');
+Route::get('/gec/{url}', [RozRegisterController::class, 'create'])->name('zone-register-create');
+Route::post('/gec/{url}', [RozRegisterController::class, 'save'])->name('zone-register-save');
+Route::post('/', [RozRegisterController::class, 'store'])->name('zone-register-store');
 
-Route::get('/zones/{url}', [RozRegisterController::class, 'index'])->name('zone-register');
-Route::post('/campus/{url}', [RozRegisterController::class, 'index'])->name('campus-register');
-Route::get('/zones/{url}/view', [RozRegisterController::class, 'show'])->name('register-view');
+
+Auth::routes();
+Route::get('/gec/view/{url}', [RozRegisterController::class, 'index'])->name('zone-register-view');
+Route::get('/setup', [SetupController::class, 'index'])->name('setup-index');
+Route::post('/setup', [SetupController::class, 'save'])->name('setup-save');

@@ -20,15 +20,13 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default("user");
             $table->rememberToken();
             $table->boolean('gecMember')->default(true);
             $table->unsignedBigInteger('zoneID')->nullable();
-            $table->unsignedBigInteger('cmzoneID')->nullable();
-            $table->string('arm')->nullable();
-            $table->timestamps();
             $table->foreign('zoneID')->references('id')->on('zones');
-            $table->foreign('cmzoneID')->references('id')->on('campus_zones');
-            $table->index(['username', 'zoneID','cmzoneID']);
+            $table->timestamps();
+            $table->index(['username', 'zoneID']);
         });
     }
 

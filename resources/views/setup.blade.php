@@ -19,7 +19,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class=" "><h4>Setup My account </h4></div>
                                     <div class="">
-                                        <form method="POST" action="{{ route('setup') }}" class="shadow-lg p-4" >
+                                        <form method="POST" action="{{ route('setup-save') }}" class="shadow-lg p-4" >
                                             @csrf
 
                                             <div class="row mb-3">
@@ -31,7 +31,7 @@
                                                         <option selected value="-1">. . . </option>
                                                         <option value="church">Church Arm</option>
                                                         <option value="campus">Campus Ministry</option>
-                                                        <option value="none">Am not an envoys</option>
+                                                        <option value="none">I'm not an envoys</option>
                                                     </select>
 
                                                 </div>
@@ -59,25 +59,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-3" id="campus">
-                                                <label for="campus"
-                                                       class="col-md-5 col-form-label text-md-end">{{ __('Select Campus Zone?') }}</label>
-
-                                                <div  class="col-md-7">
-                                                    <select  class="form-select"  class="form-control form-select @error('zone') is-invalid @enderror" aria-label="campus">
-                                                        <option name="zone" selected value="r-1">. . . </option>
-                                                        @foreach($campusZones as $zone)
-                                                            <option  value="{{$zone->id}}">{{$zone->zoneName}}</option>
-                                                        @endforeach
-
-                                                    </select>
-                                                    @error('zone')
-                                                    <span class="invalid-feedback"
-                                                          role="alert"> <strong>{{ $message }}</strong> </span>
-                                                    @enderror
-
-                                                </div>
-                                            </div>
 
 
                                             <div class="row mb-0">

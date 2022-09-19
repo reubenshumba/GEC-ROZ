@@ -13,7 +13,7 @@ class StoreRozRegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,15 @@ class StoreRozRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+                'name' => 'required|min:3',
+                'email' => 'required|email|regex:/(.+)@(.+)\.(.+)/i',
+                'number' => 'required|numeric|digits:10',
+                'address' => 'sometimes|min:3|max:250',
+                'occupation' => 'sometimes|min:3|max:250',
+                'maritalStatus' => 'required|not_in:-1',
+                'saved' => 'required|not_in:-1',
+                'church' => 'required|not_in:-1',
+                'callMe' => 'required|not_in:-1',
         ];
     }
 }

@@ -22,9 +22,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'arm',
+        'gecMember',
         'zoneID',
-        'cmZoneID'
     ];
 
     /**

@@ -17,13 +17,16 @@ class CreateRozRegistersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->nullable();
-            $table->string('address',250)->unique();
+            $table->string('address',250)->nullable();
             $table->bigInteger('number');
-            $table->string('occupation',250)->unique();
+            $table->string('occupation',250)->nullable();//->unique()
             $table->string('maritalStatus');
             $table->boolean('saved');
             $table->boolean('callMe');
             $table->boolean('church');
+            $table->unsignedBigInteger('zoneID')->nullable()->default(null);
+            $table->foreign('zoneID')->references('id')->on('zones');
+            $table->index(['zoneID']);
             $table->timestamps();
         });
     }

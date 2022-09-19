@@ -17,6 +17,7 @@ class CreateZonesTable extends Migration
             $table->id();
             $table->string('zoneName',250)->unique();
             $table->string('url',250)->unique();
+            $table->string('zoneType',250);
             $table->timestamps();
             $table->index(['zoneName', 'url']);
         });

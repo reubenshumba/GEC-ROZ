@@ -26,14 +26,19 @@ class SetupController extends Controller
      */
     public function index()
     {
-        $zone = Zone::all();
-        $cmZone = CampusZone::all();
+        $zones = Zone::all();
         $user = auth()->user();
-        if ($user->zoneID == null && $user->cmzoneID == null && $user->arm == null && $user->gecMember) {
-            return view('setup', ["zones" => $zone, "campusZones" => $cmZone]);
-        }else{
-            $url =1;
-           return redirect()->route("zone-register",["url"=>$url]);
+        if ($user->zoneID == null && $user->gecMember) {
+            return view('setup', ["zones" => $zones, "campusZones" => 2]);
+        } elseif ($user->zoneID != null && $user->gecMember) {
+            foreach ($zones as $zone) {
+                $zoneUrl = $zone != null ? $zone->url : "902930208403893403";
+            }
+            return redirect()->route("zone-register-create",
+                ["url" => $zoneUrl]);
+        } else {
+
+            return redirect("/",['message' => ' No unique link found for you',"alert"=>"warning","title"=>"warning"]);
         }
     }
 
@@ -44,33 +49,30 @@ class SetupController extends Controller
      */
     public function save(Request $request)
     {
-
         $validated = $request->validate([
             'gec' => 'required|not_in:-1',
             'zone' => 'required|not_in:-1',
         ]);
+
         $user = auth()->user();
         $user = User::find($user->id);
 
-        if ($validated["gec"] == "church") {
+        if ($validated["gec"] == "church" || $validated["gec"] == "campus") {
             $user->gecMember = true;
-            $user->arm = $validated["gec"];
             $user->zoneID = $validated["zone"];
             $user->save();
-            $zone=Zone::find($user->zoneID);
-            redirect()->route("register",["url"=>$zone->url])->with(["success", "Please do register the names of those reachout"]);
-        } elseif ($validated["gec"] == "campus") {
-            $user->arm = $validated["gec"];
-            $user->gecMember = true;
-            $user->cmzoneID = $validated["zone"];
-            $user->save();
-            $zone=CampusZone::find($user->cmzoneID);
-            redirect()->route("zone-register",["url"=>$zone->url])->with(["success", "Please do register the names of those reachout"]);
+            $zone = Zone::find($user->zoneID);
+            return redirect()
+                ->route("zone-register-create", ["url" => $zone->url])
+                ->with(["success", "Please do register name(s) of those reach out"]);
         } else {
-            $user->arm = null;
+
             $user->gecMember = false;
             $user->save();
-            redirect()->route("/")->with(["success", "Welcome, Please do register the names of those reachout"]);
+
+            return redirect()
+                ->route("/")
+                ->with(["success", "Welcome, Please do register the names() of those reach out"]);
         }
     }
 }
